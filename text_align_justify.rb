@@ -22,7 +22,7 @@ def line_split(words, width)
     words.insert(0, line.pop) if (line.join.length + line.count - 1) > width
     paragraph << line
   end
-  paragraph
+  return paragraph
 end
 
 # final line has 1 space between lines, not fitted to width & no line break
@@ -32,7 +32,7 @@ def final_line(line, paragraph)
     line.insert(index, ' ')
     index += 2
   end
-  paragraph.join
+  return paragraph.join
 end
 
 # iterate over each line to add correct spacing based on width
