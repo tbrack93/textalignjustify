@@ -1,8 +1,16 @@
 require 'rubocop'
 
 def justify(text, width)
-  # splitting text into lines based on max width, as an array of arrays
-  words = text.split(" ")
+  words = text.split(' ')
+  paragraph = line_split(words, width)
+  paragraph.each do |line|
+    return final_line(line, paragraph) if line == paragraph.last
+    add_spaces(line, width)
+  end
+end
+
+# splitting text into lines based on max width, as an array of arrays
+def line_split(words, width)
   paragraph = []
   until words.empty?
     line = []
@@ -14,38 +22,29 @@ def justify(text, width)
     words.insert(0, line.pop) if (line.join.length + line.count - 1) > width
     paragraph << line
   end
-
-  # iterate over each line to add correct spacing
-  paragraph.each do |line|
-    # final line has 1 space between lines, not fitted to width & no line break
-    if line == paragraph.last
-      index = 1
-      (line.count - 1).times do
-        line.insert(index, " ")
-        index += 2
-      end
-      return paragraph.join
-    end
-
-    spaces = width - line.join.length
-
-    unless spaces <= 0 || line.count == 1
-      index = 1
-      until spaces.zero?
-        if line[index] =~ (/\s/)
-          line[index] += " "
-        else
-          line.insert(index, " ")
-        end
-        index >= line.count - 2 ? index = 1 : index += 2
-        spaces -= 1
-      end
-    end
-      line << "\n"
-  end
+  paragraph
 end
 
-lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+# final line has 1 space between lines, not fitted to width & no line break
+def final_line(line, paragraph)
+  index = 1
+  (line.count - 1).times do
+    line.insert(index, ' ')
+    index += 2
+  end
+  paragraph.join
+end
 
-
-puts justify(lorem, 30)
+# iterate over each line to add correct spacing based on width
+def add_spaces(line, width)
+  spaces = width - line.join.length
+  unless spaces <= 0 || line.count == 1
+    index = 1
+    until spaces.zero?
+      line[index] =~ /\s/ ? line[index] += ' ' : line.insert(index, ' ')
+      index >= line.count - 2 ? index = 1 : index += 2
+      spaces -= 1
+    end
+  end
+  line << "\n"
+end
