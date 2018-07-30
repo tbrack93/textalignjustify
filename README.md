@@ -31,7 +31,6 @@ For example, with width 30:
     ultrices   nisi  volutpat  ac.
 
 
-
 # STYLISTIC CHOICES
 
 I have aimed for readability over brevity in this solution. It is a reasonably complex solution, so I have seperated

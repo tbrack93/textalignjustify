@@ -1,5 +1,3 @@
-require 'rubocop'
-
 def justify(text, width)
   words = text.split(' ')
   paragraph = line_split(words, width)
@@ -18,7 +16,7 @@ def line_split(words, width)
       word = words.shift
       line << word
     end
-    # return final word to overall words list if line is over width max
+    # return last word to overall words list if line is over width max
     words.insert(0, line.pop) if (line.join.length + line.count - 1) > width
     paragraph << line
   end
